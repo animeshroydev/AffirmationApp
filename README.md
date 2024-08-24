@@ -98,3 +98,64 @@ private fun AffirmationCardPreview() {
     )
 }
 ```
+6. Create a AffirmationList composable function and use LazyColumn
+- In Jetpack Compose, a scrollable list can be made using the LazyColumn composable. The difference between a LazyColumn and a Column is that a Column should be used when you have a small number of items to display, as Compose loads them all at once. A Column can only hold a predefined, or fixed, number of composables. A LazyColumn can add content on demand, which makes it good for long lists and particularly when the length of the list is unknown. A LazyColumn also provides scrolling by default, without additional code. Declare a LazyColumn composable inside of the AffirmationList() function. Pass the modifier object as an argument to the LazyColumn.
+- In the lambda body of the LazyColumn, call the items() method, and pass in the affirmationList. The items() method is how you add items to the LazyColumn. 
+- A call to the items() method requires a lambda function. In that function, specify a parameter of affirmation that represents one affirmation item from the affirmationList.
+```
+@Composable
+fun AffirmationList(affirmationList: List<Affirmation>, modifier: Modifier = Modifier) {
+    LazyColumn(modifier = modifier) {
+        items(affirmationList) { affirmation ->
+            AffirmationCard(
+                affirmation = affirmation,
+                modifier = Modifier.padding(8.dp)
+            )
+        }
+    }
+}
+```
+7. If you want, you can preview this too.
+```
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+private fun AffirmationAppPreview() {
+    AffirmationsApp()
+}
+```
+8. Finally create AffirmationsApp composable and call AffirmationList, pass DataSource().loadAffirmations() as parameter.
+```
+@Composable
+fun AffirmationsApp() {
+    val layoutDirection = LocalLayoutDirection.current
+    Surface(
+        modifier = Modifier
+            .fillMaxSize()
+            .statusBarsPadding()
+            .padding(
+                start = WindowInsets.safeDrawing
+                    .asPaddingValues()
+                    .calculateStartPadding(layoutDirection),
+                end = WindowInsets.safeDrawing
+                    .asPaddingValues()
+                    .calculateEndPadding(layoutDirection),
+            ),
+    ) {
+        AffirmationList(affirmationList = DataSource().loadAffirmations())
+    }
+}
+```
+9. Call in the onCreate, setContent
+```
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            AffirmationTheme {
+                AffirmationsApp()
+            }
+        }
+    }
+}
+```
+Wollah! Run the app now...
