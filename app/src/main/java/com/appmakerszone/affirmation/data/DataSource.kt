@@ -3,7 +3,7 @@ package com.appmakerszone.affirmation.data
 import com.appmakerszone.affirmation.R
 import com.appmakerszone.affirmation.model.Affirmation
 
-class DataSource {
+class DataSource() {
     fun loadAffirmations(): List<Affirmation> {
         return listOf<Affirmation>(
             Affirmation(R.string.affirmation1, R.drawable.image1),
