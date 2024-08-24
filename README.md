@@ -58,3 +58,43 @@ class DataSource() {
 }
 ```
 4. In MainActivity.kt, create a composable AffirmationCard to display single item of Affirmation.
+```
+@Composable
+fun AffirmationCard(affirmation: Affirmation, modifier: Modifier = Modifier) {
+
+    Card(modifier = modifier) {
+        Column {
+            Image(
+                painter = painterResource(id = affirmation.imageResourceId),
+                contentDescription = stringResource(id = affirmation.stringResourceId),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(194.dp),
+                contentScale = ContentScale.Crop
+            )
+
+            Text(
+                text = LocalContext.current.getString(affirmation.stringResourceId),
+                modifier = Modifier.padding(16.dp),
+                style = MaterialTheme.typography.headlineSmall
+            )
+
+        }
+    }
+
+}
+```
+5. Preview this code with initial hardcoded text and image res id.
+```
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+private fun AffirmationCardPreview() {
+    AffirmationCard(
+        affirmation = Affirmation(
+            stringResourceId = R.string.affirmation1,
+            imageResourceId = R.drawable.image1
+        ),
+        modifier = Modifier.padding(10.dp)
+    )
+}
+```
